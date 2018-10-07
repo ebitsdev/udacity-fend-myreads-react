@@ -6,7 +6,7 @@ This is project is part of the Udacity Nanodegree Scholarship in partnership wit
 
 - Clone this repository
 - Using the terminal change directory to the cloned repository folder
-- Run the following command `npm install` and `npm start`. You need to have installed the Node and npm installed on your local machine.
+- Run the following command `npm install` and `npm start`. You need to have installed Node.js and npm installed on your local machine.
 
 ## How to contribute to this project
 
