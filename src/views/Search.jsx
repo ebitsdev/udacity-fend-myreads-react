@@ -69,7 +69,7 @@ class SearchBook extends Component {
 
             return <Book key={book.id} {...book} placeBooks={this.props.placeBooks} />
           })}
-          {this.state.books.length === 0 && <h2 style={{textAlign: "center"}}>No book found</h2>}
+          {this.state.books.length === 0 && <h2 className="no-result-found">No book found</h2>}
           </ol>
         </div>
       </div>

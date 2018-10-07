@@ -15,18 +15,31 @@ class Home extends Component {
     }
   }
   render() {
+    const { placeBooks } = this.props;
     return (
       <div className="list-books">
         <div className="list-books-title">
-          <h1>MyReads</h1>
+          <h1>My Books</h1>
         </div>
         <div className="list-books-content">
           <div>
             {/* Set the 3 book shelves using the books props */}
             {/* Handle placing books in each bookshelf */}
-            <BookShelf placeBooks={this.props.placeBooks} books={this.props.reading} title="Currently Reading" />
-            <BookShelf placeBooks={this.props.placeBooks} books={this.props.toRead} title="Want to Read" />
-            <BookShelf placeBooks={this.props.placeBooks} books={this.props.read} title="Read" />
+            <BookShelf
+              placeBooks={placeBooks}
+              books={this.props.reading}
+              title="Currently Reading"
+            />
+            <BookShelf
+              placeBooks={placeBooks}
+              books={this.props.toRead}
+              title="Want to Read"
+            />
+            <BookShelf
+              placeBooks={placeBooks}
+              books={this.props.read}
+              title="Read"
+            />
             <Favorite />
           </div>
         </div>
