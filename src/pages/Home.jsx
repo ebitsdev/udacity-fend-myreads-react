@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import BookShelf from "../components/BookShelf";
-import Favorite from "../components/Favorite";
+import Search from "../components/Search";
 import * as BooksAPI from "../BooksAPI";
 
 class Home extends Component {
@@ -40,7 +40,7 @@ class Home extends Component {
               books={this.props.read}
               title="Read"
             />
-            <Favorite />
+            <Search />
           </div>
         </div>
       </div>

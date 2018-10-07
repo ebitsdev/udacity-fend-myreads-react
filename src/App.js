@@ -3,8 +3,8 @@ import { Switch, Route } from "react-router-dom";
 // import BookShelf from "./components/BookShelf";
 // import Search from "./components/SearchBooks";
 // import * as BooksAPI from "./BooksAPI";
-import Home from './views/Home';
-import Search from './views/Search';
+import Home from './pages/Home';
+import Search from './pages/Search';
 import Provider, {ProviderContext} from './provider';
 import "./App.css";
 
