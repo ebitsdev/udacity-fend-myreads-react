@@ -14,27 +14,24 @@ class index extends Component {
         const reading = books.filter(book => book.shelf === "currentlyReading");
         const toRead = books.filter(book => book.shelf === "wantToRead");
         const read = books.filter(book => book.shelf === "read");
-        this.setState({books, reading, toRead, read });
+        this.setState({ books, reading, toRead, read });
       },
       //   Move a book from one shelf to another
-      placeBooks: (shelfId, newShelf, allShelves) => {
+      placeBooks: (shelfId, bookItem, allShelves) => {
 
-        console.log(shelfId, newShelf);
+        const relocatedBooks = this.state.books.map(books => {
+            // Get the book id for moved book
+          const foundID = allShelves[shelfId].find(
+            bookId => bookId === books.id
+          );
 
-          const newBooks = this.state.books.map(allBooks => {
-
-              const foundID = allShelves[shelfId].find(
-
-                  bookId => bookId === allBooks.id
-
-                  );
-
-              if (foundID){
-                  allBooks.shelf = shelfId;
-              }
-              return allBooks;
-          });
-        this.state.updateBooks(newBooks);
+          if (foundID) {
+            //   This was causing a bug in moving the books around
+            books.shelf = shelfId;
+          }
+          return books;
+        });
+        this.state.updateBooks(relocatedBooks);
       }
     };
   }
