@@ -67,6 +67,7 @@ body, .app {
 .bookshelf-title {
   border-bottom: 1px solid #dedede;
   text-align: center;
+  color: #1359A0;
 }
 .bookshelf-books {
   text-align: center;
@@ -160,6 +161,7 @@ body, .app {
 }
 .book-title {
   margin-top: 10px;
+
 }
 .book-authors {
   color: #1359A0;
@@ -203,4 +205,5 @@ body, .app {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+
 }
