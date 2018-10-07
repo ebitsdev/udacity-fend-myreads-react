@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-const Favorite = props => {
+const SearchPage = props => {
   return (
     <div className="open-search">
      <Link to={"/Search"}>Add a book</Link>
@@ -8,4 +8,4 @@ const Favorite = props => {
   );
 };
 
-export default Favorite;
+export default SearchPage;
