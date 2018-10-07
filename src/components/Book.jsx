@@ -1,43 +1,54 @@
-import React from "react";
+import React, { Component } from "react";
+import { update } from "../BooksAPI";
 
-const Book = props => {
-  const bookItem = props.bookItems;
+class Book extends Component {
 
-  return (
-    <ol className="books-grid">
-      {bookItem.map(book => {
-        return (
-          <li key={book.industryIdentifiers[0].identifier}>
-            <div className="book">
-              <div className="book-top">
-                <div
-                  className="book-cover"
-                  style={{
-                    width: 128,
-                    height: 192,
-                    backgroundImage: `url(${book.imageLinks.thumbnail})`
-                  }}
-                />
-                <div className="book-shelf-changer">
-                  <select>
-                    <option value="move" disabled>
-                      Move to...
-                    </option>
-                    <option value="currentlyReading">Currently Reading</option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
-                  </select>
-                </div>
-              </div>
-              <div className="book-title">The Adventures of Tom Sawyer</div>
-              <div className="book-authors">Mark Twain</div>
+  // Create a book change handler
+  bookhandler = async e => {
+    try {
+      const targetShelf = e.target.value;
+
+      const selectedBookId = this.props;
+
+      const bookResult = await update(selectedBookId, targetShelf);
+
+      this.props.placeBooks(targetShelf, selectedBookId, bookResult);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  render() {
+    return (
+      <li>
+        <div className="book">
+          <div className="book-top">
+            <div
+              className="book-cover"
+              style={{
+                width: 128,
+                height: 193,
+                backgroundImage: `url(${this.props.imageLinks.thumbnail})`
+              }}
+            />
+            <div className="book-shelf-changer">
+              <select onChange={this.bookhandler} value={this.props.shelf}>
+                <option value="move" disabled>
+                  Move to...
+                </option>
+                <option value="currentlyReading">Currently Reading</option>
+                <option value="wantToRead">Want to Read</option>
+                <option value="read">Read</option>
+                <option value="none">None</option>
+              </select>
             </div>
-          </li>
-        );
-      })}
-    </ol>
-  );
-};
+          </div>
+          <div className="book-title">{this.props.title}</div>
+          <div className="book-authors">{this.props.authors}</div>
+        </div>
+      </li>
+    );
+  }
+}
 
 export default Book;

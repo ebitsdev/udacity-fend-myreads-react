@@ -1,35 +1,37 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import BookShelf from "../components/BookShelf";
 import Favorite from "../components/Favorite";
-import * as BooksAPI from '../BooksAPI';
+import * as BooksAPI from "../BooksAPI";
 
 class Home extends Component {
-  state = {
-    books: [],
-   }
-   componentDidMount() {
-    BooksAPI.getAll().then(books => {
-      this.setState({ books });
-      console.log(books)
-    })
+  async componentDidMount() {
+    // Get all the books from the BOOKSAPI
+    try {
+      const books = await BooksAPI.getAll();
+
+      this.props.updateBooks(books);
+    } catch (err) {
+      console.log(err);
+    }
   }
   render() {
-
     return (
-
       <div className="list-books">
-      {console.log('It is working')};
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
           <div>
-            <BookShelf books={this.state.books} />
+            {/* Set the 3 book shelves using the books props */}
+            {/* Handle placing books in each bookshelf */}
+            <BookShelf placeBooks={this.props.placeBooks} books={this.props.reading} title="Currently Reading" />
+            <BookShelf placeBooks={this.props.placeBooks} books={this.props.toRead} title="Want to Read" />
+            <BookShelf placeBooks={this.props.placeBooks} books={this.props.read} title="Read" />
             <Favorite />
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 export default Home;

@@ -1,41 +1,39 @@
-import React from "react";
-// import * as BooksAPI from './BooksAPI'
-import BookShelf from "./components/BookShelf";
-import Search from "./components/SearchBooks";
-import * as BooksAPI from './BooksAPI';
+import React, { Component } from "react";
+import { Switch, Route } from "react-router-dom";
+// import BookShelf from "./components/BookShelf";
+// import Search from "./components/SearchBooks";
+// import * as BooksAPI from "./BooksAPI";
+import Home from './views/Home';
+import Search from './views/Search';
+import Provider, {ProviderContext} from './provider';
 import "./App.css";
 
-class BooksApp extends React.Component {
-  state = {
-    books: [],
-    currentReading: [],
-    wantToRead: [],
-    booksRead: [],
-    updateShelves: () => {
+class BooksApp extends Component {
 
-    },
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false
-  };
-
-  componentDidMount() {
-    BooksAPI.getAll().then(books => {
-      this.setState({ books });
-    })
-  }
   render() {
     return (
       <div className="app">
-        {/* {this.getBooks()}; */}
-        <Search />
-        <div className="books">
-          <BookShelf books={this.state.books} />
-        </div>
+      <Provider>
+      <Switch>
+      <Route
+              path={"/"}
+              exact
+              render={() => (
+                <ProviderContext.Consumer>
+                  {context => <Home {...context} />}
+                </ProviderContext.Consumer>
+              )}
+
+            />
+        <Route exact path={"/Search"}
+        render={() => (
+          <ProviderContext.Consumer>
+            {context => <Search {...context} />}
+          </ProviderContext.Consumer>
+        )}
+        />
+      </Switch>
+      </Provider>
       </div>
     );
   }
