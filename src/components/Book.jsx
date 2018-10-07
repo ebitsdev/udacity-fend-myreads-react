@@ -28,10 +28,11 @@ class Book extends Component {
               style={{
                 width: 128,
                 height: 193,
-                backgroundImage: `url(${this.props.imageLinks.thumbnail})`
+                backgroundImage: `url(${this.props.imageLinks ? this.props.imageLinks.thumbnail : ""})`
               }}
             />
             <div className="book-shelf-changer">
+            
               <select onChange={this.bookhandler} value={this.props.shelf}>
                 <option value="move" disabled>
                   Move to...
@@ -44,7 +45,8 @@ class Book extends Component {
             </div>
           </div>
           <div className="book-title">{this.props.title}</div>
-          <div className="book-authors">{this.props.authors}</div>
+          {/* Handle the case when there are no authors found */}
+          <div className="book-authors">{this.props.authors ? this.props.authors : "No authors found"}</div>
         </div>
       </li>
     );
