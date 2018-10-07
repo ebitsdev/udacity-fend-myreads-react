@@ -14,7 +14,7 @@ class SearchBook extends Component {
   handleSearch = async ev => {
     try {
       const bookQuery = ev.target.value;
-
+      ev.persist();
       this.setState({ bookQuery });
       if (bookQuery.trim()) {
         const searchResults = await search(bookQuery);
@@ -58,12 +58,13 @@ class SearchBook extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
           {this.state.books.length > 0 && this.state.books.map(book => {
-            const foundShelf = this.props.books.find(bookFound => bookFound.id === book.id);
-           if (foundShelf){
-             book.shelf = foundShelf.shelf;
-             console.log(foundShelf);
+            const searchedBook = this.props.books.find(bookFound => bookFound.id === book.id);
+           if (searchedBook){
+             book.shelf = searchedBook.shelf;
+             console.log(searchedBook);
            } else {
-             book.shelf = "No book";
+            //  We need to place the found book in the none shelf so we can select any of the other 3 shelves
+             book.shelf = "none";
            }
 
             return <Book key={book.id} {...book} placeBooks={this.props.placeBooks} />
