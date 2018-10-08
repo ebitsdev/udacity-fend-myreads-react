@@ -1,20 +1,25 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { search } from "../BooksAPI";
+import { search, update } from "../BooksAPI";
 import Book from '../components/Book';
 
 class SearchBook extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bookQuery: "",
-      books: []
-    };
-  }
+  state = {
+    books: [],
+    bookQuery: ""
+  };
+  updateBooks = (book, shelf) => {
+    update(book, shelf).then(response => {
+      book.shelf = shelf;
+      console.log(book);
+      this.setState(state => ({
+        books: state.books.filter(b => b.id !== book.id).concat([book])
+      }));
+    });
+  };
   handleSearch = async ev => {
     try {
       const bookQuery = ev.target.value;
-      ev.persist();
       this.setState({ bookQuery });
       if (bookQuery.trim()) {
         const searchResults = await search(bookQuery);
@@ -32,6 +37,7 @@ class SearchBook extends Component {
     }
   };
   render() {
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -58,16 +64,19 @@ class SearchBook extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
           {this.state.books.length > 0 && this.state.books.map(book => {
-            const searchedBook = this.props.books.find(bookFound => bookFound.id === book.id);
+            const searchedBook = this.state.books.find(bookFound => bookFound.id === book.id);
            if (searchedBook){
              book.shelf = searchedBook.shelf;
-             console.log(searchedBook);
+            //  console.log(searchedBook);
            } else {
             //  We need to place the found book in the none shelf so we can select any of the other 3 shelves
              book.shelf = "none";
            }
 
-            return <Book key={book.id} {...book} placeBooks={this.props.placeBooks} />
+            return <Book
+            key={book.id}
+            updateBooks={this.updateBooks} book={book}
+          />
           })}
           {this.state.books.length === 0 && <h2 className="no-result-found">No book found</h2>}
           </ol>

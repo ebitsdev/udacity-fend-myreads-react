@@ -1,23 +1,8 @@
 import React, { Component } from "react";
-import { update } from "../BooksAPI";
+// import { update } from "../BooksAPI";
 
 class Book extends Component {
 
-  // Create a book change handler
-  bookhandler = async e => {
-    try {
-      const targetShelf = e.target.value;
-
-      const selectedBookId = this.props;
-
-      const bookResult = await update(selectedBookId, targetShelf);
-
-      this.props.placeBooks(targetShelf, selectedBookId, bookResult);
-
-    } catch (error) {
-      console.error(error);
-    }
-  };
   render() {
     return (
       <li>
@@ -28,12 +13,12 @@ class Book extends Component {
               style={{
                 width: 128,
                 height: 193,
-                backgroundImage: `url(${this.props.imageLinks ? this.props.imageLinks.thumbnail : ""})`
+                backgroundImage: `url(${this.props.book.imageLinks ? this.props.book.imageLinks.thumbnail : ""})`
               }}
             />
             <div className="book-shelf-changer">
 
-              <select label="select book" onChange={this.bookhandler} value={this.props.shelf}>
+              <select label="select book" onChange={(ev) => {this.props.updateBooks(this.props.book, ev.target.value)}} value={this.props.book.shelf}>
                 <option label="move book" value="move" disabled>
                   Move to...
                 </option>
@@ -44,9 +29,9 @@ class Book extends Component {
               </select>
             </div>
           </div>
-          <div className="book-title">{this.props.title}</div>
+          <div className="book-title">{this.props.book.title}</div>
           {/* Handle the case when there are no authors found */}
-          <div className="book-authors">{this.props.authors ? this.props.authors : "No authors found"}</div>
+          <div className="book-authors">{this.props.book.authors ? this.props.book.authors.join('\n') : "No authors found"}</div>
         </div>
       </li>
     );
