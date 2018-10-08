@@ -10,6 +10,7 @@ class Home extends Component {
     toRead: [],
     read: []
   };
+  // Get all the books from the BooksAPI
   componentDidMount() {
     BooksAPI.getAll().then(response => {
       this.setState({
@@ -17,10 +18,10 @@ class Home extends Component {
       });
     });
   }
-  updateBooks = (book, shelf) => {
+  placeBooks = (book, shelf) => {
     BooksAPI.update(book, shelf).then(response => {
       book.shelf = shelf;
-      console.log(book);
+
       this.setState(state => ({
         books: state.books.filter(b => b.id !== book.id).concat([book])
       }));
@@ -36,12 +37,12 @@ class Home extends Component {
           <div>
             <BookShelf
               title="Currently Reading"
-              updateBooks={this.updateBooks}
+              placeBooks={this.placeBooks}
               books={this.state.books.filter(b => b.shelf === "currentlyReading")}
             />
-            <BookShelf title="Want to Read" updateBooks={this.updateBooks} books={this.state.books.filter(b => b.shelf === "wantToRead")} />
-            <BookShelf title="Read" updateBooks={this.updateBooks} books={this.state.books.filter(b => b.shelf === "read")}/>
-            <Search updateBooks={this.updateBooks} books={this.state.books} />
+            <BookShelf title="Want to Read" placeBooks={this.placeBooks} books={this.state.books.filter(b => b.shelf === "wantToRead")} />
+            <BookShelf title="Read" placeBooks={this.placeBooks} books={this.state.books.filter(b => b.shelf === "read")}/>
+            <Search placeBooks={this.placeBooks} books={this.state.books} />
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ class Bookshelf extends Component {
               this.props.books.map(book => (
                 <Book
                   key={book.id}
-                  updateBooks={this.props.updateBooks} book={book}
+                  placeBooks={this.props.placeBooks} book={book}
                 />
               ))}
           </ol>

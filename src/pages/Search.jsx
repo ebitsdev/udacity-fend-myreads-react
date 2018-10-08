@@ -8,10 +8,10 @@ class SearchBook extends Component {
     books: [],
     bookQuery: ""
   };
-  updateBooks = (book, shelf) => {
+  placeBooks = (book, shelf) => {
     update(book, shelf).then(response => {
       book.shelf = shelf;
-      console.log(book);
+
       this.setState(state => ({
         books: state.books.filter(b => b.id !== book.id).concat([book])
       }));
@@ -67,7 +67,7 @@ class SearchBook extends Component {
             const searchedBook = this.state.books.find(bookFound => bookFound.id === book.id);
            if (searchedBook){
              book.shelf = searchedBook.shelf;
-            //  console.log(searchedBook);
+
            } else {
             //  We need to place the found book in the none shelf so we can select any of the other 3 shelves
              book.shelf = "none";
@@ -75,7 +75,7 @@ class SearchBook extends Component {
 
             return <Book
             key={book.id}
-            updateBooks={this.updateBooks} book={book}
+            placeBooks={this.placeBooks} book={book}
           />
           })}
           {this.state.books.length === 0 && <h2 className="no-result-found">No book found</h2>}
