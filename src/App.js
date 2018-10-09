@@ -1,15 +1,25 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import * as BooksAPI from './BooksAPI';
+import * as BooksAPI from "./BooksAPI";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 
 import "./App.css";
 
+const PageNotFound = ({ location }) => (
+  <div>
+    <div className="container-not-found">
+  <h1>404</h1>
+
+  <p><strong>Page not found :(</strong></p>
+  <p>The requested page <code>{location.pathname}</code> could not be found.</p>
+</div>
+  </div>
+)
 class BooksApp extends Component {
   state = {
     books: [],
-    searchedBooks: [],
+    searchedBooks: []
   };
   // Get all the books from the BooksAPI
   componentDidMount() {
@@ -19,6 +29,7 @@ class BooksApp extends Component {
       });
     });
   }
+
   // This allows to pass as props to all children if needed
   placeBooks = (book, shelf) => {
     BooksAPI.update(book, shelf).then(response => {
@@ -32,8 +43,21 @@ class BooksApp extends Component {
     return (
       <div className="app">
         <Switch>
-          <Route exact path={"/"} render={() => <Home books={this.state.books} placeBooks={this.placeBooks} />}/>
-          <Route exact path={"/Search"} render={() => <Search placeBooks={this.placeBooks} books={this.state.books} />}/>
+          <Route
+            exact
+            path={"/"}
+            render={() => (
+              <Home books={this.state.books} placeBooks={this.placeBooks} />
+            )}
+          />
+          <Route
+            exact
+            path={"/Search"}
+            render={() => (
+              <Search placeBooks={this.placeBooks} books={this.state.books} />
+            )}
+          />
+          <Route component={PageNotFound}/>
         </Switch>
       </div>
     );
