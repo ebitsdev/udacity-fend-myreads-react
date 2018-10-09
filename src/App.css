@@ -210,6 +210,7 @@ body, .app {
 
 /* Style 404 page */
 .container-not-found {
+  color: #1359A0;
   margin: 10px auto;
   max-width: 600px;
   text-align: center;
@@ -219,4 +220,7 @@ body, .app {
   font-size: 4em;
   line-height: 1;
   letter-spacing: -1px;
+}
+.container-not-found a {
+  font-weight: 700;
 }
