@@ -8,6 +8,7 @@ class SearchBook extends Component {
     books: [],
     bookQuery: ""
   };
+
   placeBooks = (book, shelf) => {
     update(book, shelf).then(response => {
       book.shelf = shelf;
@@ -64,6 +65,8 @@ class SearchBook extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
           {this.state.books.length > 0 && this.state.books.map(book => {
+            console.log(book);
+
             const searchedBook = this.state.books.find(bookFound => bookFound.id === book.id);
            if (searchedBook){
              book.shelf = searchedBook.shelf;
@@ -78,7 +81,7 @@ class SearchBook extends Component {
             placeBooks={this.placeBooks} book={book}
           />
           })}
-          {this.state.books.length === 0 && <h2 className="no-result-found">No book found</h2>}
+          {this.state.books.length === 0 && <h2 className="no-result-found">No result found</h2>}
           </ol>
         </div>
       </div>
