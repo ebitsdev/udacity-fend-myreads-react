@@ -1,25 +1,12 @@
 import React, { Component } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
+import PageNotFound from './pages/404'
 
 import "./App.css";
 
-const PageNotFound = ({ location }) => (
-  <div>
-    <div className="container-not-found">
-      <h1>404</h1>
-      <p>
-        <strong>Page not found :(</strong>
-      </p>
-      <p>
-        The requested page <code>{location.pathname}</code> could not be found.
-      </p>
-      <Link text="test" to='/'>Go Home</Link>
-    </div>
-  </div>
-);
 class BooksApp extends Component {
   state = {
     books: [],
@@ -61,7 +48,7 @@ class BooksApp extends Component {
               <Search placeBooks={this.placeBooks} books={this.state.books} />
             )}
           />
-
+              {/* Handle page not found */}
           <Route component={PageNotFound} />
         </Switch>
       </div>
