@@ -1,23 +1,24 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Book from "../components/Book";
 import { search, update } from "../BooksAPI";
-import Book from '../components/Book';
 
 class SearchBook extends Component {
   state = {
     books: [],
-    bookQuery: ""
+    bookQuery: "",
+    results: []
   };
 
   placeBooks = (book, shelf) => {
     update(book, shelf).then(response => {
       book.shelf = shelf;
-
       this.setState(state => ({
         books: state.books.filter(b => b.id !== book.id).concat([book])
       }));
     });
   };
+
   handleSearch = async ev => {
     try {
       const bookQuery = ev.target.value;
@@ -31,14 +32,14 @@ class SearchBook extends Component {
           this.setState({ books: searchResults });
         }
       } else {
-        this.setState({books: []});
+        this.setState({ books: [] });
       }
     } catch (error) {
       console.log(error);
     }
   };
-  render() {
 
+  render() {
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -64,24 +65,30 @@ class SearchBook extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-          {this.state.books.length > 0 && this.state.books.map(book => {
-            console.log(book);
+            {this.state.books.length > 0 &&
+              this.state.books.map(book => {
+                // We need to set below to this.props.books to set the proper shelf on the search page
+                const searchedBook = this.props.books.find(
+                  bookFound => bookFound.id === book.id
+                );
+                if (searchedBook) {
+                  book.shelf = searchedBook.shelf;
+                } else {
+                  //  We need to place the found book in the none shelf so we can select any of the other 3 shelves
+                  book.shelf = "none";
+                }
 
-            const searchedBook = this.state.books.find(bookFound => bookFound.id === book.id);
-           if (searchedBook){
-             book.shelf = searchedBook.shelf;
-
-           } else {
-            //  We need to place the found book in the none shelf so we can select any of the other 3 shelves
-             book.shelf = "none";
-           }
-
-            return <Book
-            key={book.id}
-            placeBooks={this.placeBooks} book={book}
-          />
-          })}
-          {this.state.books.length === 0 && <h2 className="no-result-found">No result found</h2>}
+                return (
+                  <Book
+                    key={book.id}
+                    placeBooks={this.props.placeBooks}
+                    book={book}
+                  />
+                );
+              })}
+            {this.props.books.length === 0 && (
+              <h2 className="no-result-found">No result found</h2>
+            )}
           </ol>
         </div>
       </div>
