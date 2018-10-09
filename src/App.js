@@ -9,8 +9,7 @@ import "./App.css";
 
 class BooksApp extends Component {
   state = {
-    books: [],
-    searchedBooks: []
+    books: []
   };
   // Get all the books from the BooksAPI
   componentDidMount() {
